@@ -8,8 +8,8 @@ c.execute("""create table if not exists articles_table (article_id INTEGER PRIMA
                                             article_title text,
                                             article_content text,
                                             article_author text,
-                                            FOREIGN KEY(article_author) REFERENCES users_table(username)
                                             createdDate text,
-                                            modifiedDate text)""")                                        
+                                            modifiedDate text,
+                                            FOREIGN KEY(article_author) REFERENCES users_table(username))""")                                        
 connection.commit()
 connection.close()
