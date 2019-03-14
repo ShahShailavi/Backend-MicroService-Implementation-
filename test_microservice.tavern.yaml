@@ -1,0 +1,70 @@
+---
+
+test_name: Try to post an article without authenticating
+
+stages:
+  - name: Make sure that user should not post article till authenticaton
+    request:
+      url: http://127.0.0.1:5000/postarticle
+      json:
+        articletitle: Java Tutorial
+        articlecontent: Java Contents
+      method: POST
+      headers:
+        content-type: application/json
+    response:
+      status_code: 401
+
+---
+
+test_name: Try to post an article using wrong password
+
+stages:
+  - name: Make sure that user should allowed to post article
+    request:
+      url: http://127.0.0.1:5000/postarticle
+      auth:
+        - shailavi@gmail.com
+        - hjk
+      json:
+        articletitle: Java Tutorial
+        articlecontent: Java Contents
+      method: POST
+      headers:
+        content-type: application/json
+    response:
+      status_code: 401
+
+---
+
+test_name: Post an article successfully
+
+stages:
+  - name: Make sure the user can post article
+    request:
+      url: http://127.0.0.1:5000/postarticle
+      auth:
+        - shailavi@gmail.com
+        - sss
+      json:
+        articletitle: Java Tutorials
+        articlecontent: Java Contents
+      method: POST
+      headers:
+        content-type: application/json
+    response:
+      status_code: 201
+
+---
+
+test_name: Retrive newly post article
+
+stages:
+  - name: Make sure user can get newly posted article
+    request:
+      url: http://127.0.0.1:5000/retrivenrecentarticle/1
+      method: GET
+      headers:
+        content-type: application/json
+    response:
+      status_code: 200

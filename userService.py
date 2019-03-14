@@ -47,6 +47,7 @@ def verify(username, password):
 @app.route("/createuser", methods=['POST'])
 def createuser():
     if (request.method == 'POST'):
+        user_details = request.get_json()
         if not request.json.get('name'):
             return jsonify("Please enter your name")
         elif not request.json.get('username'):
@@ -56,7 +57,6 @@ def createuser():
         elif not request.json.get('userpassword'):
             return jsonify("Please enter your password")
         else:
-            user_details = request.get_json()
             user_password = sha256_crypt.encrypt((str(user_details['userpassword'])))
             db = get_database()
             try:
