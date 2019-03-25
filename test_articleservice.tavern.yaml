@@ -5,9 +5,9 @@ test_name: Try to post an article without authenticating
 stages:
   - name: Make sure that user should not post article till authenticaton
     request:
-      url: http://127.0.0.1:5000/postarticle
+      url: http://127.0.0.1:5200/postarticle
       json:
-        articletitle: Java Tutorial
+        articletitle: JavaTutorial
         articlecontent: Java Contents
       method: POST
       headers:
@@ -22,12 +22,12 @@ test_name: Try to post an article using wrong password
 stages:
   - name: Make sure that user should allowed to post article
     request:
-      url: http://127.0.0.1:5000/postarticle
+      url: http://127.0.0.1:5200/postarticle
       auth:
         - shailavi@gmail.com
         - hjk
       json:
-        articletitle: Java Tutorial
+        articletitle: JavaTutorial
         articlecontent: Java Contents
       method: POST
       headers:
@@ -42,12 +42,12 @@ test_name: Post an article successfully
 stages:
   - name: Make sure the user can post article
     request:
-      url: http://127.0.0.1:5000/postarticle
+      url: http://127.0.0.1:5200/postarticle
       auth:
         - shailavi@gmail.com
         - sss
       json:
-        articletitle: Java Tutorials
+        articletitle: JavaTutorials
         articlecontent: Java Contents
       method: POST
       headers:
@@ -62,9 +62,30 @@ test_name: Retrive newly post article
 stages:
   - name: Make sure user can get newly posted article
     request:
-      url: http://127.0.0.1:5000/retrivenrecentarticle/1
+      url: http://127.0.0.1:5200/retrivenrecentarticle/1
       method: GET
       headers:
         content-type: application/json
     response:
       status_code: 200
+
+---
+
+test_name: Check that the newly posted article is the most recent
+
+stages:
+  - name: Make sure that the newly posted article matches with the recent article based on its ID
+    request:
+      url: http://127.0.0.1:5200/retrivenrecentarticle/1
+      method: GET
+      headers:
+        content-type: application/json
+    response:
+      status_code: 200
+      body:
+        [
+          {
+            "article_title": "JavaTutorials",
+            "article_content": "Java Contents",
+          }
+        ]

@@ -16,6 +16,8 @@ def get_database():
     database = getattr(g, '_database', None)
     if database is None:
         database = g._database = sqlite3.connect(microservice_database)
+        database.cursor().execute("PRAGMA foreign_keys = ON")
+        database.commit()
     return database
 
 @app.teardown_appcontext
